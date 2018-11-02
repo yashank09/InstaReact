@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
+import data from "../assets/data.json";
+
 import likeIcon from "../assets/like_icon.png";
 import commentIcon from "../assets/comment_icon.png";
 import dmIcon from "../assets/dm_icon.png";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default class Insta extends Component {
   constructor() {
@@ -13,65 +16,75 @@ export default class Insta extends Component {
     };
   }
 
+  lastTap = null;
   likePicture = () => {
-    this.setState({ ifLiked: !this.state.ifLiked });
+    const now = Date.now();
+    const DOUBLE_PRESS_DELAY = 200;
+    if (this.lastTap && now - this.lastTap < DOUBLE_PRESS_DELAY) {
+      this.setState({ ifLiked: !this.state.ifLiked });
+    } else {
+      this.lastTap = now;
+    }
   };
 
-pictureLiked = this.state.ifLiked ? "red" : null;
-
   render() {
+    const pictureLiked = this.state.ifLiked ? "red" : null;
     return (
-      <View>
-        <View style={styles.appBar}>
-          <Text>Instagram</Text>
-        </View>
+      <ScrollView>
+        {data.data.map(i => (
+          <View style={styles.mainContainer} key={i.id}>
+            <View style={styles.userBar}>
+              <View style={styles.userInfo}>
+                <Image
+                  style={styles.userPic}
+                  source={{
+                    uri: "https://picsum.photos/50/?random"
+                  }}
+                />
 
-        <View style={styles.userBar}>
-          <View style={styles.userInfo}>
-            <Image
-              style={styles.userPic}
-              source={{
-                uri: "https://picsum.photos/50/?random"
-              }}
-            />
+                <View>
+                  <Text>User Name</Text>
+                  <Text>Location</Text>
+                </View>
+              </View>
 
-            <View>
-              <Text>User Name</Text>
-              <Text>Location</Text>
+              <View style={styles.options}>
+                <Text>...</Text>
+              </View>
+            </View>
+
+            <TouchableOpacity activeOpacity={0.3} onPress={this.likePicture}>
+              <Image
+                style={{ width: 100 + "%", height: 420 }}
+                source={{
+                  uri: "https://picsum.photos/500/?random"
+                }}
+              />
+            </TouchableOpacity>
+
+            <View style={styles.pictureActionBar}>
+              <Image
+                source={likeIcon}
+                style={{
+                  height: 28,
+                  width: 28,
+                  margin: 10,
+                  tintColor: pictureLiked
+                }}
+              />
+              <Image source={commentIcon} style={styles.pictureAction} />
+              <Image source={dmIcon} style={styles.pictureAction} />
             </View>
           </View>
-
-          <View style={styles.options}>
-            <Text>...</Text>
-          </View>
-        </View>
-
-        <TouchableOpacity activeOpacity={0.3} onPress={this.likePicture}>
-          <Image
-            style={{ width: 100 + "%", height: 420 }}
-            source={{
-              uri: "https://picsum.photos/600/?random"
-            }}
-          />
-
-          <View style={styles.pictureActionBar}>
-            <Image source={likeIcon} style={styles.likeAction} />
-            <Image source={commentIcon} style={styles.pictureAction} />
-            <Image source={dmIcon} style={styles.pictureAction} />
-          </View>
-        </TouchableOpacity>
-      </View>
+        ))}
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  appBar: {
-    height: 50,
-    borderBottomColor: "#d7dbe2",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    alignItems: "center",
-    justifyContent: "center"
+  mainContainer: {
+    marginBottom: 18
   },
   userBar: {
     flexDirection: "row",
@@ -106,11 +119,5 @@ const styles = StyleSheet.create({
     height: 28,
     width: 28,
     margin: 10
-  },
-  likeAction: {
-    height: 28,
-    width: 28,
-    margin: 10,
-    tintColor: this.pictureLiked
   }
 });
