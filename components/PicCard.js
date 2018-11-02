@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback
+} from "react-native";
 
 import data from "../assets/data.json";
 
@@ -53,14 +59,14 @@ export default class Insta extends Component {
               </View>
             </View>
 
-            <TouchableOpacity activeOpacity={0.3} onPress={this.likePicture}>
+            <TouchableWithoutFeedback activeOpacity={1} onPress={this.likePicture}>
               <Image
                 style={{ width: 100 + "%", height: 420 }}
                 source={{
-                  uri: "https://picsum.photos/500/?random"
+                  uri: "https://picsum.photos/550/"
                 }}
               />
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
 
             <View style={styles.pictureActionBar}>
               <Image
