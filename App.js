@@ -1,7 +1,10 @@
 import React from "react";
 import { View, StatusBar } from "react-native";
 
-import { createSwitchNavigator, createBottomTabNavigator } from "react-navigation";
+import {
+  createSwitchNavigator,
+  createBottomTabNavigator
+} from "react-navigation";
 
 import AppBar from "./components/AppBar";
 import Login from "./components/Login";
@@ -10,15 +13,15 @@ import Profile from "./components/Profile";
 import UploadPic from "./components/UploadPic";
 
 const MainStack = createSwitchNavigator({
-  login: Login,
-  mainApp: TabStack
+  Login: { screen: Login },
+  MainApp: { screen: TabStack }
 });
 
 const TabStack = createBottomTabNavigator({
-  profile: Profile,
-  feed: PicCard,
-  upload: UploadPic
-})
+  Profile: { screen: Profile },
+  Feed: { screen: PicCard },
+  Upload: { screen: UploadPic }
+});
 
 export default class App extends React.Component {
   render() {
