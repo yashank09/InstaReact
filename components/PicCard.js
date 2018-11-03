@@ -32,7 +32,6 @@ export default class Insta extends Component {
       this.lastTap = now;
     }
   };
-
   render() {
     const pictureLiked = this.state.ifLiked ? "red" : null;
     return (
@@ -59,7 +58,10 @@ export default class Insta extends Component {
               </View>
             </View>
 
-            <TouchableWithoutFeedback activeOpacity={1} onPress={this.likePicture}>
+            <TouchableWithoutFeedback
+              activeOpacity={1}
+              onPress={this.likePicture}
+            >
               <Image
                 style={{ width: 100 + "%", height: 420 }}
                 source={{

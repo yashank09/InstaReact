@@ -2,11 +2,15 @@ import React, { Component } from "react";
 import { Button } from "react-native";
 
 export default class Login extends Component {
-loginUser = () => {
-    this.props.navigation.navigate("feed");
-}
+  constructor(props){
+    super(props);
+  }
 
-  render() {
+  loginUser = () => {
+    this.props.navigation.navigate("MainApp");
+  }
+
+ render() {
     return <Button title={"Login"} onPress={this.loginUser}/>;
   }
 }

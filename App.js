@@ -1,29 +1,37 @@
-import React from "react";
-import { View, StatusBar } from "react-native";
+import React, { Component } from "react";
+import { View, StatusBar, ActivityIndicator } from "react-native";
 
-import {
-  createSwitchNavigator,
-  createBottomTabNavigator
-} from "react-navigation";
+import { createSwitchNavigator } from "react-navigation";
 
 import AppBar from "./components/AppBar";
 import Login from "./components/Login";
-import PicCard from "./components/PicCard";
-import Profile from "./components/Profile";
-import UploadPic from "./components/UploadPic";
+import {StackNavigator} from "./components/StackNavigator";
+
+class UserLogged extends Component {
+  constructor(props) {
+    super(props);
+    this.checkUserLogged();
+  }
+  checkUserLogged = async () => {
+    const userLoggedIn = false;
+    this.props.navigation.navigate(userLoggedIn? "MainApp": "Login")
+  };
+  render() {
+    return (
+      <View>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+}
 
 const MainStack = createSwitchNavigator({
-  Login: { screen: Login },
-  MainApp: { screen: TabStack }
+  checkUser: UserLogged,
+  MainApp: StackNavigator,
+  Login: Login
 });
 
-const TabStack = createBottomTabNavigator({
-  Profile: { screen: Profile },
-  Feed: { screen: PicCard },
-  Upload: { screen: UploadPic }
-});
-
-export default class App extends React.Component {
+export default class App extends Component {
   render() {
     return (
       <View style={{ paddingTop: StatusBar.currentHeight, paddingBottom: 50 }}>
